@@ -1,7 +1,14 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import { connect } from 'react-redux';
-import './header.styles.scss';
+
+import {
+        HeaderContainer,
+        LogoContainer,
+        OptionsContainer,
+        OptionLink } from './header.styles.jsx';
+
+
 import {ReactComponent as Logo} from '../../assets/crown.svg.svg';
 import { createStructuredSelector } from 'reselect';
 import { selectCartHidden } from '../../redux/cart/cart.selectors.js';
@@ -14,33 +21,33 @@ import { auth } from '../../firebase/firebase.utils.js';
 
 const Header = ({ currentUser, hidden }) => {
     return (
-        <div className="header">
-            <Link className="logo-container" to='/'>
+        <HeaderContainer>
+            <LogoContainer to='/'>
                 <Logo className="logo"/>
-            </Link>
-            <div className="options">
-                <Link to="/shop" className="option">
+            </LogoContainer>
+            <OptionsContainer>
+                <OptionLink to="/shop" >
                     SHOP
-                </Link>
-                <Link to="/shop" className="option">
+                </OptionLink>
+                <OptionLink to="/shop" >
                     CONTACT
-                </Link>
+                </OptionLink>
                 {
                     currentUser ?
-                    <div className="option" onClick={() => auth.signOut()}>SIGN OUT</div>
+                    <OptionLink as='div' className="option" onClick={() => auth.signOut()}>SIGN OUT</OptionLink>
                     :
-                    <Link to="/signin" className="option">
+                    <OptionLink to="/signin" >
                     SignIn
-                    </Link>
+                    </OptionLink>
                 }
                 <CartIcon />
-            </div>
+            </OptionsContainer>
             {
                 hidden ?
                 null :
                 <CartDropdown />
             }
-        </div>
+        </HeaderContainer>
     )
 };
 
